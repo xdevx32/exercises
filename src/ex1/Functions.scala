@@ -11,6 +11,7 @@ object Functions {
     println(exists(List(1,2,3,4),greaterThan3))
     println(forall(List(4,4,4,4),greaterThan3))
     println(filter(List(4,3,3,3),List(),greaterThan3))
+    println(balance(List('(',')')))
   }
   def length(data: List[Int], lengthCount: Int = 0): Int =
     if(data.isEmpty) lengthCount
@@ -45,8 +46,17 @@ object Functions {
   // Проверява дали скобите в даден масив от символи са балансирани.
   // Коректно: (a)asda(b)(v) | (((a))) | ()(()асдасд)
   // Грешно: )() | ((д) | ((das) (d)( 
-  def balance(chars: List[Char]): Boolean = ???
-
+   def balance(chars: List[Char]): Boolean = {
+    def balanced(chars: List[Char], open: Int): Boolean = {
+        if (chars.isEmpty) open == 0
+            else
+                if (chars.head == '(') balanced(chars.tail,open+1)        
+                else
+                    if (chars.head == ')') open>0 && balanced(chars.tail,open-1)
+                    else balanced(chars.tail,open)
+    }      
+    balanced(chars,0)
+ }
   def map(chars: List[Char], f: Any) =  ???
 
   def toUpperCase(chars: List[Char]) = {
