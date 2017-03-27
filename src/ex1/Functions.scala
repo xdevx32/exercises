@@ -12,6 +12,7 @@ object Functions {
     println(forall(List(4,4,4,4),greaterThan3))
     println(filter(List(4,4,4,3),greaterThan3))
     println(balance(List('(',')')))
+    println(toUpperCase(List('a','A','b','C')))
   }
   def length(data: List[Int], lengthCount: Int = 0): Int =
     if(data.isEmpty) lengthCount
@@ -61,11 +62,17 @@ object Functions {
  }
   def map(chars: List[Char], f: Any) =  ???
 
-  def toUpperCase(chars: List[Char]) = {
-    def upperCase(char: Char) = ???
-  
-    ???
-  }
+   def toUpperCase(chars: List[Char]): List[Char] = {
+    def upperCase(chars: List[Char],uppercased: List[Char]): List[Char] ={
+      if(chars.isEmpty) uppercased
+      else
+        if(chars.head.isUpper)
+          upperCase(chars.tail,uppercased :+ chars.head)
+          else
+            upperCase(chars.tail,uppercased :+ chars.head.toUpper)
+    }
+    upperCase(chars,List())
+   }
 
   // Връща числото от триъгълника на Паскал отговарящо на съответния ред/колона
   def pascal(c: Int, r: Int): Int = ???
