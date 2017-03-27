@@ -10,7 +10,7 @@ object Functions {
     println(ifelse(true,xPlus,x))
     println(exists(List(1,2,3,4),greaterThan3))
     println(forall(List(4,4,4,4),greaterThan3))
-    println(filter(List(4,3,3,3),List(),greaterThan3))
+    println(filter(List(4,4,4,3),greaterThan3))
     println(balance(List('(',')')))
   }
   def length(data: List[Int], lengthCount: Int = 0): Int =
@@ -36,13 +36,15 @@ object Functions {
         if(f(data.head)) forall(data.tail,f)
         else false
     
-  def filter(data: List[Int],output: List[Int] ,f: (Int => Boolean)):List[Int] =
-    if(data.isEmpty) output
-    else
-      if(f(data.head)) output :+ data.head
-      else
-      filter(data.tail,output,f)
-    
+  def filter(data: List[Int] ,f:  (Int => Boolean)):List[Int] = {
+     def helper(data: List[Int],output: List[Int] ,f: (Int => Boolean)):List[Int] ={
+         if(data.isEmpty) output
+            else
+                if(f(data.head)) helper(data.tail,output :+ data.head,f)
+                else helper(data.tail,output,f)
+          }
+     helper(data,List(),f)   
+  }
   // Проверява дали скобите в даден масив от символи са балансирани.
   // Коректно: (a)asda(b)(v) | (((a))) | ()(()асдасд)
   // Грешно: )() | ((д) | ((das) (d)( 
