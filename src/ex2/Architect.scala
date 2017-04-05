@@ -49,6 +49,17 @@ class Architect {
     case Cube() =>  -1;
   }
  
+  def findRectangulars(shapes: List[Shape]): Int = {
+    def iter(shapes: List[Shape], n: Int): Int = {
+      if(shapes.isEmpty) n;
+      else iter(shapes.tail,shapes.head match{
+        case t:Triangle => if(triangleType(t).equals("rectangular")) n+1 else n;
+        case s:Shape => n; 
+      });       
+    }
+    iter(shapes, 0);
+  }
+
   def isTriangle(t:Triangle)={
     if(t.a + t.b > t.c && t.b + t.c > t.a && t.a + t.c > t.b) true else false;
   }
@@ -62,6 +73,7 @@ object hwTwo {
      println(architect.isTriangle(Triangle(10,500,20,4)))
      println(architect.triangleType(Triangle(5,5,6,7)))
      println(architect.triangleType(triang))
+     println(architect.findRectangulars(List(triang,rect)))
      println(architect.area(rect))
   }
 }
