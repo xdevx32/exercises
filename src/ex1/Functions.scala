@@ -9,10 +9,11 @@ object Functions {
     var xPlus = x + 1
     println(ifelse(true,xPlus,x))
     println(exists(List(1,2,3,4),greaterThan3))
-    println(forall(List(4,4,4,4),greaterThan3))
+    println(forall(List(),greaterThan3))
     println(filter(List(4,4,4,3),greaterThan3))
     println(balance(List('(',')')))
     println(toUpperCase(List('a','A','b','C')))
+    println(pascal(1,5))
   }
   def length(data: List[Int], lengthCount: Int = 0): Int =
     if(data.isEmpty) lengthCount
@@ -32,7 +33,8 @@ object Functions {
   def greaterThan3(x: Int): Boolean = x>3
   
   def forall(data: List[Int], f: (Int => Boolean)): Boolean =
-    if(length(data) == 1 && f(data.head)) true
+    if(data.isEmpty) false
+    else if(length(data) == 1 && f(data.head)) true
     else
         if(f(data.head)) forall(data.tail,f)
         else false
@@ -60,8 +62,17 @@ object Functions {
     }      
     balanced(chars,0)
  }
-  def map(chars: List[Char], f: Any) =  ???
-
+   
+  def map(chars: List[Char], f: (Char) => Any)={
+    def helper(chars: List[Char], f: (Char) => Any, mapped: List[Any]): List[Any] = {
+      if (chars.isEmpty) mapped;
+      else {
+        helper(chars.tail, f, mapped :+ f(chars.head));
+      }
+    }
+    helper(chars, f, List());
+  }
+  
    def toUpperCase(chars: List[Char]): List[Char] = {
     def upperCase(chars: List[Char],uppercased: List[Char]): List[Char] ={
       if(chars.isEmpty) uppercased
@@ -75,5 +86,15 @@ object Functions {
    }
 
   // Връща числото от триъгълника на Паскал отговарящо на съответния ред/колона
-  def pascal(c: Int, r: Int): Int = ???
+  def pascal(c: Int, r: Int): Int = {
+    def helper(c: Int, r: Int): Int = {   
+      if(c == 0 || c == r) 1;
+      else helper(c-1, r-1) + helper(c,r-1);
+    }
+    if(c>r || (c<0 || r<0)){
+      return -1;
+    }
+   
+    helper(c, r);
+  }
 }
